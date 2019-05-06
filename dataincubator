@@ -33,3 +33,6 @@ the graphs I want to show is how the number of children can predict the earning 
 /* it is very interesting when we only focus on male/female and total population, the graph are uploaded*/
 twoway lfit incwagehat nchild if train!=1
 twoway lfit incwagehat nchild if train!=1, by(female)
+
+
+/*earning-childnumber2.gph is the general prediction, earning-childnumber.gph is the prediction by gender*/
