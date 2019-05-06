@@ -1,0 +1,33 @@
+/* use acs 5 years 2017 */
+use "/Users/suwei/Downloads/usa_00043.dta", clear
+/* drop institutional residents, such as prison, college*/
+
+drop if gq!=1
+/* drop NA and missing wages*/
+drop if incwage==999999|incwage==999998
+
+/* I will only consider working age adults, 25-64 years old, with employment status equals to employed*/
+keep if age>=25&age<=64
+keep if empstat==1
+/* change sex to female indicator*/
+rename sex female
+recode female (1=0)(2=1)
+label define fm 1 female 0 male
+label values female fm
+/*now, I want to predict what affects the wage, simple ols first to explore*/
+reg incwage educ i.marst i.race i.multyear uhrswork nchild nchlt5 female [fw=perwt]
+ 
+/*
+now, lets do a simple prediction based on ols model
+*/
+set seed 1234
+generate train = (runiform() > 0.5)
+regress incwage educ i.marst i.race i.multyear uhrswork nchild nchlt5 female [fw=perwt] if train==1
+predict incwagehat if train!=1
+
+
+
+/* draw some graph
+the first graph I want to show is how the number of children can predict the earning based on the prediction*/
+twoway lfit incwagehat nchild if train!=1
+twoway lfit incwagehat nchild if train!=1, by(female)
