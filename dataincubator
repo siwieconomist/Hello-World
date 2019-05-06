@@ -28,6 +28,8 @@ predict incwagehat if train!=1
 
 
 /* draw some graph
-the first graph I want to show is how the number of children can predict the earning based on the prediction*/
+the graphs I want to show is how the number of children can predict the earning based on the prediction*/
+
+/* it is very interesting when we only focus on male/female and total population, the graph are uploaded*/
 twoway lfit incwagehat nchild if train!=1
 twoway lfit incwagehat nchild if train!=1, by(female)
